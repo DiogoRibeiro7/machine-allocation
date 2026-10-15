@@ -6,13 +6,16 @@ the same instance land on different near-optimal plans and that variation has to
 apart from the effect of the estimates. Finished solves are cached, so the script can be
 interrupted and resumed.
 """
-from common import *  # noqa: F401,F403
+import pickle
 
-from sched.heuristics import atcs, atcs_tuned, best_baseline, greedy_cost
-from sched.instance import draw_jobs, int_times, make_instance, make_plant, times_for
-from sched.model import solve_isolated as solve
-from sched.simulate import evaluate, execute, score
-from sched.times import Estimators, make_history
+import numpy as np
+
+from common import JOBS_SEED, N_JOBS, PEN, PLANT_SEED, QUICK, RESULTS, budget, load_pickle, reps, save_json
+from machine_allocation.heuristics import atcs, atcs_tuned, best_baseline, greedy_cost
+from machine_allocation.instance import draw_jobs, int_times, make_instance, make_plant, times_for
+from machine_allocation.model import solve_isolated as solve
+from machine_allocation.simulate import evaluate, execute, score
+from machine_allocation.times import Estimators, make_history
 
 BUDGET = budget(80.0)
 R = reps(2000)
@@ -55,7 +58,7 @@ def realise(seqs, assign):
     mu = P_true[rows, assign]
     for r in range(R):
         dur = mu * np.exp(s * z[r] - 0.5 * s ** 2)
-        st, en, su, a = execute(inst, seqs, dur)
+        _, en, su, a = execute(inst, seqs, dur)
         sc = score(inst, en, su, a, dur, PEN)
         tot[r], wt[r], late[r] = sc["total"], sc["weighted_tardiness_h"], sc["late_jobs"]
     return tot, wt, late

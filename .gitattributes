@@ -1,0 +1,5 @@
+# Keep LF everywhere: run_all.sh fails under bash with CRLF line endings.
+* text=auto eol=lf
+
+*.png binary
+*.pkl binary

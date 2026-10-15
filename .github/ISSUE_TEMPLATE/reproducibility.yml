@@ -1,0 +1,34 @@
+name: Results differ from the article
+description: A rerun of the experiments gives numbers or figures that do not match the published ones.
+labels: [reproducibility]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Solver results are repeatable only with the same OR-Tools version (the article used 9.15),
+        and the run-time estimators depend on the scikit-learn version. Please check those first.
+  - type: input
+    id: experiment
+    attributes:
+      label: Experiment
+      placeholder: exp3_run_times.py
+    validations:
+      required: true
+  - type: textarea
+    id: difference
+    attributes:
+      label: What differs
+      description: The published value, the value you got, and where each comes from (JSON key or figure).
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: Output of `python -c "import sys, ortools, numpy, sklearn; print(sys.version, ortools.__version__, numpy.__version__, sklearn.__version__)"`
+    validations:
+      required: true
+  - type: input
+    id: machine
+    attributes:
+      label: Operating system and number of cores

@@ -2,12 +2,13 @@
 punctuality survives run-to-run variability as the machines fill up."""
 import dataclasses
 
-from common import *  # noqa: F401,F403
+import numpy as np
 
-from sched.heuristics import best_baseline
-from sched.instance import int_times, make_instance, make_plant
-from sched.model import solve_isolated as solve
-from sched.simulate import evaluate, execute, score, utilisation
+from common import JOBS_SEED, N_JOBS, PEN, PLANT_SEED, SIDE_BUDGET, reps, save_json
+from machine_allocation.heuristics import best_baseline
+from machine_allocation.instance import int_times, make_instance, make_plant
+from machine_allocation.model import solve_isolated as solve
+from machine_allocation.simulate import evaluate, execute, score, utilisation
 
 R = reps(2000)
 plant = make_plant(PLANT_SEED)

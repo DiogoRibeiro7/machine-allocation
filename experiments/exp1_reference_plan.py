@@ -1,10 +1,9 @@
 """Experiment 1: the reference week. EDD list rule, tuned ATCS dispatching, CP-SAT."""
-from common import *  # noqa: F401,F403
-
-from sched.heuristics import atcs_tuned, edd_list, greedy_cost
-from sched.instance import describe, int_times, make_instance, make_plant
-from sched.model import solve_isolated as solve
-from sched.simulate import evaluate, utilisation
+from common import JOBS_SEED, MAIN_BUDGET, N_JOBS, PEN, PENALTY_PER_H, PLANT_SEED, save_json, save_pickle, scalars
+from machine_allocation.heuristics import atcs_tuned, edd_list, greedy_cost
+from machine_allocation.instance import describe, int_times, make_instance, make_plant
+from machine_allocation.model import solve_isolated as solve
+from machine_allocation.simulate import evaluate, utilisation
 
 inst = make_instance(N_JOBS, jobs_seed=JOBS_SEED, plant=make_plant(PLANT_SEED))
 P = int_times(inst, inst.true_mean)

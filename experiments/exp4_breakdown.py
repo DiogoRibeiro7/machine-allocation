@@ -1,10 +1,11 @@
 """Experiment 4: a machine fails mid-week. Right-shift, or re-optimise with a cap on how
 many jobs may change machine."""
-from common import *  # noqa: F401,F403
+import numpy as np
 
-from sched.instance import int_times, make_instance, make_plant
-from sched.model import solve_isolated as solve
-from sched.simulate import evaluate
+from common import JOBS_SEED, N_JOBS, PEN, PLANT_SEED, budget, load_pickle, save_json, scalars
+from machine_allocation.instance import int_times, make_instance, make_plant
+from machine_allocation.model import solve_isolated as solve
+from machine_allocation.simulate import evaluate
 
 BM, T_B, DOWN = 1, 40 * 60, 12 * 60          # M2 fails at hour 40 for twelve hours
 inst = make_instance(N_JOBS, jobs_seed=JOBS_SEED, plant=make_plant(PLANT_SEED))
@@ -13,7 +14,7 @@ base = load_pickle("exp1_plans.pkl")["CP-SAT"]
 ev0 = evaluate(inst, base, P, PEN)
 
 windows = {m: list(w) for m, w in inst.windows.items()}
-windows[BM] = sorted([(T_B, T_B + DOWN)] + windows.get(BM, []))
+windows[BM] = sorted([(T_B, T_B + DOWN), *windows.get(BM, [])])
 frozen, interrupted = {}, None
 for j in range(inst.N):
     if ev0["start"][j] < T_B:

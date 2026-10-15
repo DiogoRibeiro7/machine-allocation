@@ -5,13 +5,13 @@ VOLUME=1.1 python exp2_frontier.py  repeats the sweep with every job 10% larger,
 capacity binds; the grid is finer there because that is where the curve bends.
 """
 import dataclasses
+import os
 
-from common import *  # noqa: F401,F403
-
-from sched.heuristics import atcs_tuned, edd_list, greedy_cost
-from sched.instance import int_times, make_instance, make_plant
-from sched.model import solve_isolated as solve
-from sched.simulate import evaluate
+from common import JOBS_SEED, N_JOBS, PEN, PLANT_SEED, budget, load_pickle, save_json, scalars
+from machine_allocation.heuristics import atcs_tuned, edd_list, greedy_cost
+from machine_allocation.instance import int_times, make_instance, make_plant
+from machine_allocation.model import solve_isolated as solve
+from machine_allocation.simulate import evaluate
 
 VOLUME = float(os.environ.get("VOLUME", "1.0"))
 inst = make_instance(N_JOBS, jobs_seed=JOBS_SEED, plant=make_plant(PLANT_SEED))

@@ -1,0 +1,56 @@
+# Issue and pull-request labels, synced to GitHub by .github/workflows/labels.yml.
+# Edit here, not in the GitHub UI: a label changed only on GitHub is overwritten on the next sync.
+
+# --- type -----------------------------------------------------------------------------
+- name: bug
+  color: d73a4a
+  description: Something does not work as documented
+- name: reproducibility
+  color: b60205
+  description: Results differ from the published ones or cannot be regenerated
+- name: enhancement
+  color: a2eeef
+  description: New feature or improvement
+- name: documentation
+  color: 0075ca
+  description: README, docstrings or comments
+- name: question
+  color: d876e3
+  description: Further information is requested
+
+# --- area -----------------------------------------------------------------------------
+- name: "area: solver"
+  color: 1d76db
+  description: The CP-SAT model (model.py)
+- name: "area: heuristics"
+  color: 1d76db
+  description: EDD, ATCS and the cost-aware greedy rule (heuristics.py)
+- name: "area: simulation"
+  color: 1d76db
+  description: Plant, order book, execution and scoring (instance.py, simulate.py)
+- name: "area: run times"
+  color: 1d76db
+  description: Production log and processing-time estimators (times.py)
+- name: "area: experiments"
+  color: 1d76db
+  description: Experiment scripts, results and figures
+- name: "area: tooling"
+  color: 1d76db
+  description: Packaging, tests, linting and CI
+
+# --- status ---------------------------------------------------------------------------
+- name: good first issue
+  color: 7057ff
+  description: Small and self-contained; a good place to start
+- name: help wanted
+  color: "008672"
+  description: Extra attention is needed
+- name: duplicate
+  color: cfd3d7
+  description: This issue or pull request already exists
+- name: invalid
+  color: e4e669
+  description: This does not seem right
+- name: wontfix
+  color: ffffff
+  description: This will not be worked on

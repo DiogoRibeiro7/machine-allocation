@@ -1,0 +1,29 @@
+name: Bug report
+description: Something in the package or the scripts does not work as documented.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you ran, what you expected, and what you got instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal example
+      description: The shortest code or command that shows the problem.
+      render: python
+  - type: textarea
+    id: output
+    attributes:
+      label: Error output
+      render: text
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: Output of `python -c "import sys, ortools, numpy, sklearn; print(sys.version, ortools.__version__, numpy.__version__, sklearn.__version__)"`
+    validations:
+      required: true

@@ -5,7 +5,7 @@ import itertools
 
 import numpy as np
 
-from .instance import Instance
+from .instance import SETUP_COST_MIN, Instance
 from .simulate import evaluate
 
 
@@ -16,7 +16,7 @@ class _State:
         self.prev = [None] * inst.M
         self.pending = {m: list(range(len(windows.get(m, [])))) for m in range(inst.M)}
         self.windows = windows
-        self.seqs = {m: [] for m in range(inst.M)}
+        self.seqs: dict[int, list[int]] = {m: [] for m in range(inst.M)}
 
     def place(self, j: int, m: int, P: np.ndarray, commit: bool = False,
               actual: np.ndarray | None = None):
@@ -60,7 +60,7 @@ def edd_list(inst: Instance, P: np.ndarray, windows: dict | None = None) -> dict
     windows = inst.windows if windows is None else windows
     st = _State(inst, windows)
     for j in np.lexsort((-inst.weight, inst.due)):
-        ms = np.flatnonzero(inst.eligible[j])
+        ms = np.flatnonzero(inst.eligible[j]).tolist()
         best = min(ms, key=lambda m: st.place(j, m, P)[1])
         st.place(j, best, P, commit=True)
     return st.finish()
@@ -86,20 +86,17 @@ def atcs(inst: Instance, P: np.ndarray, k1: float, k2: float,
         if not elig:
             done_m[m] = True
             continue
-        t = st.t[m]
-
-        def setup_for(j):
-            f = inst.family[j]
-            return pl.cold[m, f] if st.prev[m] is None else pl.setup[m, st.prev[m], f]
-
+        t, prev = st.t[m], st.prev[m]
+        setup = {j: pl.cold[m, inst.family[j]] if prev is None else pl.setup[m, prev, inst.family[j]]
+                 for j in elig}
         # A job counts as waiting if its material is in, or arrives during its changeover.
-        ready = [j for j in elig if inst.release[j] <= t + setup_for(j)]
+        ready = [j for j in elig if inst.release[j] <= t + setup[j]]
         if not ready:
-            st.t[m] = min(inst.release[j] - setup_for(j) for j in elig)
+            st.t[m] = min(inst.release[j] - setup[j] for j in elig)
             continue
-        best, best_idx = None, -np.inf
+        best, best_idx = ready[0], -np.inf
         for j in ready:
-            s = setup_for(j)
+            s = setup[j]
             p = P[j, m]
             slack = max(inst.due[j] - p - t, 0.0)
             idx = (inst.weight[j] / p) * np.exp(-slack / (k1 * pbar)) * np.exp(-s / (k2 * sbar))
@@ -118,13 +115,13 @@ def atcs_tuned(inst: Instance, P: np.ndarray, penalty_per_min: float = 1.0,
                windows: dict | None = None):
     """Grid-search the two look-ahead parameters on the instance itself, which is the
     most favourable way to run the rule."""
-    best = None
+    best_tot, best_seqs, best_par = np.inf, {}, {}
     for k1, k2 in itertools.product(K1_GRID, K2_GRID):
         seqs = atcs(inst, P, k1, k2, windows)
         tot = evaluate(inst, seqs, P, penalty_per_min, windows)["total"]
-        if best is None or tot < best[0]:
-            best = (tot, k1, k2, seqs)
-    return best[3], {"k1": best[1], "k2": best[2]}
+        if tot < best_tot:
+            best_tot, best_seqs, best_par = tot, seqs, {"k1": k1, "k2": k2}
+    return best_seqs, best_par
 
 
 def greedy_cost(inst: Instance, P: np.ndarray, penalty_per_min: float = 1.0,
@@ -132,14 +129,13 @@ def greedy_cost(inst: Instance, P: np.ndarray, penalty_per_min: float = 1.0,
     """A cost-aware list rule: jobs in due-date order, each sent to the machine where its
     own running cost, changeover cost and lateness penalty add up to the least. It sees
     the same cost function as the solver but decides one job at a time."""
-    from .instance import SETUP_COST_MIN
-
     windows = inst.windows if windows is None else windows
     st = _State(inst, windows)
     for j in np.lexsort((-inst.weight, inst.due)):
-        best, best_c = None, np.inf
-        for m in np.flatnonzero(inst.eligible[j]):
-            s0, en, su = st.place(j, m, P)
+        ms = np.flatnonzero(inst.eligible[j]).tolist()
+        best, best_c = ms[0], np.inf
+        for m in ms:
+            _, en, su = st.place(j, m, P)
             c = (inst.plant.cost_h[m] * P[j, m] / 60.0 + SETUP_COST_MIN * su
                  + penalty_per_min * inst.weight[j] * max(0.0, en - inst.due[j]))
             if c < best_c:

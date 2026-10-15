@@ -1,15 +1,17 @@
 """Draw every figure in the article from the saved results."""
-from common import *  # noqa: F401,F403
+import sys
 
 import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.lines import Line2D
+from matplotlib.patches import Patch
+
+from common import FIGURES, JOBS_SEED, N_JOBS, PEN, PLANT_SEED, load_json, load_pickle
+from machine_allocation.instance import FAMILIES, MACHINES, int_times, make_instance, make_plant
+from machine_allocation.simulate import evaluate
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-from matplotlib.patches import Patch
-from matplotlib.lines import Line2D
-
-from sched.instance import FAMILIES, MACHINES, int_times, make_instance, make_plant
-from sched.simulate import evaluate
 
 SURFACE, INK, INK2, MUTED, GRID, AXIS = "#fcfcfb", "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#c3c2b7"
 C = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4"]      # categorical slots 1-5
@@ -44,7 +46,7 @@ def fig_gantt():
     plans = load_pickle("exp1_plans.pkl")
     res = load_json("exp1_reference_plan.json")["policies"]
     fig, axes = plt.subplots(2, 1, figsize=(11, 7.4), sharex=True)
-    for ax, name in zip(axes, ["Cost-aware greedy", "CP-SAT"]):
+    for ax, name in zip(axes, ["Cost-aware greedy", "CP-SAT"], strict=True):
         ev = evaluate(inst, plans[name], P, PEN)
         for j in range(inst.N):
             m, s, e, su = ev["assign"][j], ev["start"][j] / 60, ev["end"][j] / 60, ev["setup"][j] / 60
@@ -86,7 +88,9 @@ def fig_gantt():
 
 def fig_anytime():
     d = load_json("exp1_reference_plan.json")
-    tr = np.array(d["solver"]["trace"])
+    tr = np.array(d["solver"]["trace"]).reshape(-1, 3)
+    if not len(tr):          # the solver never improved on its warm start (QUICK=1 budgets)
+        tr = np.array([[0.0, d["solver"]["objective"], d["solver"]["bound"]]])
     wall = d["solver"]["wall_s"]
     t = np.append(tr[:, 0], wall) / 60
     obj = np.append(tr[:, 1], tr[-1, 1])
@@ -114,12 +118,12 @@ def fig_anytime():
 def fig_frontier():
     fig, axes = plt.subplots(1, 2, figsize=(11, 4.6))
     for ax, (fname, title) in zip(axes, [("exp2_frontier.json", "Reference order book"),
-                                         ("exp2_frontier_v110.json", "Every job 10% larger")]):
+                                         ("exp2_frontier_v110.json", "Every job 10% larger")], strict=True):
         d = load_json(fname)
         pts = d["points"]
         lams = sorted(r["lambda"] for r in d["sweep"])
-        gx = [pts[f"greedy@{l}"]["weighted_tardiness_h"] for l in lams]
-        gy = [pts[f"greedy@{l}"]["operating_cost"] for l in lams]
+        gx = [pts[f"greedy@{lam}"]["weighted_tardiness_h"] for lam in lams]
+        gy = [pts[f"greedy@{lam}"]["operating_cost"] for lam in lams]
         front = sorted(d["nondominated"], key=lambda k: pts[k]["weighted_tardiness_h"])
         cx = [pts[k]["weighted_tardiness_h"] for k in front]
         cy = [pts[k]["operating_cost"] for k in front]
@@ -127,16 +131,16 @@ def fig_frontier():
                 label="CP-SAT, best plans found in the sweep")
         ax.plot(gx, gy, color=C[1], lw=2, marker="o", ms=8, mec=SURFACE, mew=2, zorder=3,
                 label="Cost-aware greedy, one plan per penalty")
-        for l, x, y in zip(lams, gx, gy):
-            if l in (lams[0], 30, lams[-1]):
-                ax.annotate(f"€{l:,}/h", (x, y), xytext=(8, 4), textcoords="offset points", fontsize=8.5, color=INK2)
+        for lam, x, y in zip(lams, gx, gy, strict=True):
+            if lam in (lams[0], 30, lams[-1]):
+                ax.annotate(f"€{lam:,}/h", (x, y), xytext=(8, 4), textcoords="offset points", fontsize=8.5, color=INK2)
         ax.yaxis.set_major_formatter(plt.FuncFormatter(euro))
         ax.set_xlabel("Weighted hours late")
         ax.set_title(title)
         ax.set_xlim(left=-15)
     axes[0].set_ylabel("Operating cost of the week")
-    h, l = axes[0].get_legend_handles_labels()
-    fig.legend(h, l, loc="lower center", ncol=2, bbox_to_anchor=(0.5, -0.07))
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc="lower center", ncol=2, bbox_to_anchor=(0.5, -0.07))
     fig.subplots_adjust(wspace=0.22, bottom=0.14)
     finish(fig, "fig3_frontier.png", credit_y=-0.12)
 
@@ -150,10 +154,10 @@ def fig_times():
     d = load_json("exp3_run_times.json")
     fig, axes = plt.subplots(1, 2, figsize=(11, 4.4), sharey=True)
     ys = np.arange(len(EST))[::-1]
-    for ax, (pk, rk, sk, title, fmt) in zip(axes, [
-            ("planned_total", "real_total_mean", "total_samples", "Weekly cost", euro),
-            ("planned_wt_h", "real_wt_mean", "wt_samples", "Weighted hours late", lambda v, _=None: f"{v:,.0f}")]):
-        for y, (k, lab) in zip(ys, EST):
+    panels = [("planned_total", "real_total_mean", "total_samples", "Weekly cost", euro),
+              ("planned_wt_h", "real_wt_mean", "wt_samples", "Weighted hours late", lambda v, _=None: f"{v:,.0f}")]
+    for ax, (pk, rk, sk, title, fmt) in zip(axes, panels, strict=True):
+        for y, (k, _) in zip(ys, EST, strict=True):
             r = d["plans"][k]
             smp = np.array(r[sk])
             lo, hi = np.quantile(smp, 0.1), np.quantile(smp, 0.9)
@@ -182,7 +186,7 @@ def fig_slack():
     d = load_json("exp3_run_times.json")
     marks = ["o", "s", "^", "D", "v"]
     fig, ax = plt.subplots(figsize=(8.6, 4.8))
-    for (k, lab), col, mk in zip(EST, C, marks):
+    for (k, lab), col, mk in zip(EST, C, marks, strict=True):
         rs = d["plans"][k]["per_seed"]
         ax.plot([r["tight_weight_true"] for r in rs], [r["real_wt_mean"] for r in rs], marker=mk, ms=9, color=col,
                 mec=SURFACE, mew=2, lw=0, label=lab, zorder=3)
@@ -211,7 +215,7 @@ def fig_load():
             label="Planned")
     ax.plot(u, [r["real_wt_mean"] for r in d], color=C[1], lw=2, marker="o", ms=7, mec=SURFACE, mew=2,
             label="Delivered, mean of 2,000 weeks (band: 10th to 90th percentile)")
-    for r, x in zip(d, u):
+    for r, x in zip(d, u, strict=True):
         ax.annotate(f"{r['volume']:.0%} volume", (x, r["real_wt_mean"]), xytext=(0, 9), textcoords="offset points",
                     ha="center", fontsize=8.5, color=INK2)
     ax.set_xlabel("Mean planned machine utilisation, %")
@@ -223,8 +227,13 @@ def fig_load():
     finish(fig, "fig6_load.png", credit_y=-0.03)
 
 
+FIGS = {"gantt": fig_gantt, "anytime": fig_anytime, "frontier": fig_frontier, "times": fig_times,
+        "slack": fig_slack, "load": fig_load}
+
 if __name__ == "__main__":
-    import sys
-    which = sys.argv[1:] or ["gantt", "anytime", "frontier", "times", "slack", "load"]
+    which = sys.argv[1:] or list(FIGS)
+    unknown = [w for w in which if w not in FIGS]
+    if unknown:
+        sys.exit(f"unknown figure(s): {', '.join(unknown)}; choose from {', '.join(FIGS)}")
     for w in which:
-        globals()[f"fig_{w}"]()
+        FIGS[w]()

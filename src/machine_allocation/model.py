@@ -16,6 +16,9 @@ from ortools.sat.python import cp_model
 from .instance import SETUP_COST_MIN, Instance
 from .simulate import evaluate
 
+# A node of a machine's circuit: "D" for the depot, a job index, or ("W", k) for stop k.
+Node = str | int | tuple[str, int]
+
 
 def solve(inst: Instance, P: np.ndarray, *, time_limit: float = 60.0,
           penalty_per_min: float = 1.0, cost_weight: float = 1.0,
@@ -68,7 +71,7 @@ def solve(inst: Instance, P: np.ndarray, *, time_limit: float = 60.0,
             mdl.add(x[j, fm] == 1)
             mdl.add(start[j] == int(fs))
 
-    arc_lits = {}
+    arc_lits: dict[tuple[int, Node, Node], cp_model.IntVar] = {}
     for m in range(M):
         jobs = [j for j in range(N) if (j, m) in x]
         wins = windows.get(m, [])
@@ -142,10 +145,10 @@ def solve(inst: Instance, P: np.ndarray, *, time_limit: float = 60.0,
                 if (j, m) in x:
                     mdl.add_hint(x[j, m], int(ev["assign"][j] == m))
         for m, seq in hint_seqs.items():
-            prev = "D"
+            prev: Node = "D"
             used = set()
             for item in seq:
-                cur = ("W", -item - 1) if item < 0 else item
+                cur: Node = ("W", -item - 1) if item < 0 else item
                 if (m, prev, cur) in arc_lits:
                     mdl.add_hint(arc_lits[m, prev, cur], 1)
                     used.add((m, prev, cur))
@@ -210,14 +213,15 @@ def solve_isolated(*args, retries: int = 3, **kwargs):
     aborted run should cost one solve, not the batch. With a deterministic budget a retry
     returns the same plan the failed attempt would have returned.
     """
+    # The child imports this module by name, so make sure it finds the same copy.
     root = pathlib.Path(__file__).resolve().parents[1]
     env = dict(os.environ, PYTHONPATH=str(root) + os.pathsep + os.environ.get("PYTHONPATH", ""))
     with tempfile.TemporaryDirectory() as tmp:
         fin, fout = os.path.join(tmp, "in.pkl"), os.path.join(tmp, "out.pkl")
         with open(fin, "wb") as fh:
             pickle.dump((args, kwargs), fh)
-        for attempt in range(retries):
-            proc = subprocess.run([sys.executable, "-m", "sched.model", fin, fout], env=env)
+        for _ in range(retries):
+            proc = subprocess.run([sys.executable, "-m", __name__, fin, fout], env=env)
             if proc.returncode == 0 and os.path.exists(fout):
                 with open(fout, "rb") as fh:
                     return pickle.load(fh)
@@ -226,8 +230,8 @@ def solve_isolated(*args, retries: int = 3, **kwargs):
 
 
 if __name__ == "__main__":
-    with open(sys.argv[1], "rb") as _fh:
-        _args, _kwargs = pickle.load(_fh)
+    with open(sys.argv[1], "rb") as _fin:
+        _args, _kwargs = pickle.load(_fin)
     _res = solve(*_args, **_kwargs)
-    with open(sys.argv[2], "wb") as _fh:
-        pickle.dump(_res, _fh)
+    with open(sys.argv[2], "wb") as _fout:
+        pickle.dump(_res, _fout)

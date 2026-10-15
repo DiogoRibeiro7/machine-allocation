@@ -1,0 +1,98 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "machine-allocation"
+version = "1.0.0"
+description = "Companion code for the article 'Machine Allocation on a Production Line': a CP-SAT model for scheduling unrelated parallel machines with changeovers, release dates and maintenance, compared with dispatching rules in five simulated experiments."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "Diogo Ribeiro" }]
+requires-python = ">=3.11"
+# Kept in step with the GitHub repository topics.
+keywords = [
+    "operations-research", "scheduling", "production-scheduling", "parallel-machine-scheduling",
+    "constraint-programming", "cp-sat", "or-tools", "combinatorial-optimization", "dispatching-rules",
+    "sequence-dependent-setups", "manufacturing", "simulation", "gradient-boosting", "reproducible-research",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Typing :: Typed",
+]
+dependencies = [
+    "numpy>=2.0",
+    # The published results were produced with 9.15; a deterministic solve is only
+    # repeatable within one OR-Tools version.
+    "ortools>=9.15",
+    "scikit-learn>=1.5",
+]
+
+[project.urls]
+Article = "https://medium.com/@diogo-ribeiro-1975/machine-allocation-on-a-production-line-requirements-a-constraint-model-and-the-data-science-182f2ac7d579"
+Repository = "https://github.com/DiogoRibeiro7/machine-allocation"
+Issues = "https://github.com/DiogoRibeiro7/machine-allocation/issues"
+
+[project.optional-dependencies]
+figures = ["matplotlib>=3.9"]
+dev = [
+    "machine-allocation[figures]",
+    "mypy>=1.11",
+    "pre-commit>=3.8",
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/tests", "/LICENSE", "/README.md"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+src = ["src", "experiments", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "UP",   # pyupgrade
+    "NPY",  # numpy-specific rules
+    "RUF",  # ruff-specific rules
+]
+# int(round(x)) is deliberate: x is often a numpy scalar and CP-SAT needs Python ints.
+ignore = ["RUF046"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["machine_allocation", "common"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+xfail_strict = true
+filterwarnings = ["error"]
+
+[tool.mypy]
+files = ["src"]
+python_version = "3.11"
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unreachable = true
+strict_equality = true
+check_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = ["sklearn.*"]
+ignore_missing_imports = true

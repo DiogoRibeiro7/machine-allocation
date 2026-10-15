@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: If you use this code, please cite the article it accompanies.
+title: "machine-allocation: companion code for 'Machine Allocation on a Production Line'"
+type: software
+authors:
+  - given-names: Diogo
+    family-names: Ribeiro
+version: 1.0.0
+license: Apache-2.0
+repository-code: https://github.com/DiogoRibeiro7/machine-allocation
+keywords:
+  - scheduling
+  - operations research
+  - constraint programming
+  - CP-SAT
+  - unrelated parallel machines
+preferred-citation:
+  type: article
+  title: Machine Allocation on a Production Line
+  authors:
+    - given-names: Diogo
+      family-names: Ribeiro
+  publisher:
+    name: Medium
+  url: https://medium.com/@diogo-ribeiro-1975/machine-allocation-on-a-production-line-requirements-a-constraint-model-and-the-data-science-182f2ac7d579

@@ -1,19 +1,21 @@
-"""Shared settings for the experiment scripts."""
+"""Shared settings for the experiment scripts.
+
+The scripts import the ``machine_allocation`` package, so install it first
+(``pip install -e .`` from the repository root).
+"""
 from __future__ import annotations
 
 import json
 import os
 import pathlib
 import pickle
-import sys
 
 import numpy as np
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
-QUICK = bool(os.environ.get("QUICK"))          # smoke-test mode: tiny budgets, separate folder
+QUICK = bool(os.environ.get("QUICK"))          # smoke-test mode: tiny budgets, separate folders
 RESULTS = ROOT / ("results_quick" if QUICK else "results")
-FIGURES = ROOT / "figures"
+FIGURES = ROOT / ("figures_quick" if QUICK else "figures")
 RESULTS.mkdir(exist_ok=True)
 FIGURES.mkdir(exist_ok=True)
 

@@ -1,10 +1,9 @@
 """Experiment 5b: the 120-job instance again with six times the solver budget."""
-from common import *  # noqa: F401,F403
-
-from sched.heuristics import best_baseline
-from sched.instance import int_times, make_instance, make_plant
-from sched.model import solve_isolated as solve
-from sched.simulate import evaluate
+from common import JOBS_SEED, MAIN_BUDGET, PEN, PLANT_SEED, save_json
+from machine_allocation.heuristics import best_baseline
+from machine_allocation.instance import int_times, make_instance, make_plant
+from machine_allocation.model import solve_isolated as solve
+from machine_allocation.simulate import evaluate
 
 n = 120
 inst = make_instance(n, horizon_h=120.0 * n / 50.0, jobs_seed=JOBS_SEED + n, plant=make_plant(PLANT_SEED))
