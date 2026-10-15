@@ -1,0 +1,70 @@
+{
+ "rows": [
+  {
+   "volume": 0.7,
+   "utilisation_mean": 0.5759179678122509,
+   "utilisation_max": 0.8671052631578947,
+   "planned_wt_h": 0.9833333333333333,
+   "planned_total": 26779.183333333334,
+   "bound": 26027.4,
+   "real_wt_mean": 11.091985585802103,
+   "real_wt_p90": 28.890378626941477,
+   "real_wt_p10": 0.24099749029499665,
+   "real_total_mean": 27392.998977099374,
+   "planned_late": 2
+  },
+  {
+   "volume": 0.8,
+   "utilisation_mean": 0.6494369724598853,
+   "utilisation_max": 0.952485380116959,
+   "planned_wt_h": 0.0,
+   "planned_total": 30844.316666666662,
+   "bound": 29605.133333333335,
+   "real_wt_mean": 3.033018361047027,
+   "real_wt_p90": 7.8550234998824155,
+   "real_wt_p10": 0.0,
+   "real_total_mean": 31033.044544754062,
+   "planned_late": 0
+  },
+  {
+   "volume": 0.9,
+   "utilisation_mean": 0.7219411525701226,
+   "utilisation_max": 0.8561011904761905,
+   "planned_wt_h": 0.0,
+   "planned_total": 34579.01666666666,
+   "bound": 33493.566666666666,
+   "real_wt_mean": 6.355521847717235,
+   "real_wt_p90": 18.829930301151506,
+   "real_wt_p10": 0.0,
+   "real_total_mean": 34965.45179494248,
+   "planned_late": 0
+  },
+  {
+   "volume": 1.0,
+   "utilisation_mean": 0.8038775218698085,
+   "utilisation_max": 0.9483918128654971,
+   "planned_wt_h": 4.516666666666667,
+   "planned_total": 39017.46666666666,
+   "bound": 37269.36666666667,
+   "real_wt_mean": 25.623879942236925,
+   "real_wt_p90": 54.492367710119204,
+   "real_wt_p10": 6.204477716580357,
+   "real_total_mean": 40283.00942394556,
+   "planned_late": 1
+  },
+  {
+   "volume": 1.1,
+   "utilisation_mean": 0.8781346205552194,
+   "utilisation_max": 0.9671052631578947,
+   "planned_wt_h": 7.533333333333333,
+   "planned_total": 43192.51666666666,
+   "bound": 40943.433333333334,
+   "real_wt_mean": 35.680568880292384,
+   "real_wt_p90": 70.84634947143886,
+   "real_wt_p10": 8.456843414760069,
+   "real_total_mean": 44888.427183910906,
+   "planned_late": 3
+  }
+ ],
+ "replications": 2000
+}

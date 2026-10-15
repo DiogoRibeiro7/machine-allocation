@@ -1,0 +1,314 @@
+{
+ "volume": 1.1,
+ "sweep": [
+  {
+   "lambda": 2,
+   "objective": 41609.916666666664,
+   "bound": 40333.23333333333,
+   "gap": 0.030682189141610916,
+   "wall_s": 87.35529398918152,
+   "weighted_tardiness_h": 442.43333333333334,
+   "tardiness_cost": 884.8666666666667,
+   "setup_h": 25.166666666666668,
+   "setup_cost": 1510.0,
+   "run_cost": 39215.049999999996,
+   "operating_cost": 40725.049999999996,
+   "total": 41609.916666666664,
+   "late_jobs": 16,
+   "max_tardiness_h": 66.2,
+   "makespan_h": 172.7
+  },
+  {
+   "lambda": 5,
+   "objective": 42638.25,
+   "bound": 40476.5,
+   "gap": 0.05069978247231066,
+   "wall_s": 99.34717297554016,
+   "weighted_tardiness_h": 288.75,
+   "tardiness_cost": 1443.75,
+   "setup_h": 26.666666666666668,
+   "setup_cost": 1600.0,
+   "run_cost": 39594.49999999999,
+   "operating_cost": 41194.49999999999,
+   "total": 42638.24999999999,
+   "late_jobs": 13,
+   "max_tardiness_h": 56.35,
+   "makespan_h": 153.16666666666666
+  },
+  {
+   "lambda": 10,
+   "objective": 43440.333333333336,
+   "bound": 40611.38333333333,
+   "gap": 0.0651226586659096,
+   "wall_s": 93.3603446483612,
+   "weighted_tardiness_h": 117.0,
+   "tardiness_cost": 1170.0,
+   "setup_h": 28.25,
+   "setup_cost": 1695.0,
+   "run_cost": 40575.33333333333,
+   "operating_cost": 42270.33333333333,
+   "total": 43440.33333333333,
+   "late_jobs": 10,
+   "max_tardiness_h": 33.31666666666667,
+   "makespan_h": 119.0
+  },
+  {
+   "lambda": 20,
+   "objective": 44363.86666666667,
+   "bound": 40797.63333333333,
+   "gap": 0.08038598979950662,
+   "wall_s": 89.10014486312866,
+   "weighted_tardiness_h": 112.81666666666666,
+   "tardiness_cost": 2256.333333333333,
+   "setup_h": 28.0,
+   "setup_cost": 1680.0,
+   "run_cost": 40427.53333333333,
+   "operating_cost": 42107.53333333333,
+   "total": 44363.86666666667,
+   "late_jobs": 7,
+   "max_tardiness_h": 33.31666666666667,
+   "makespan_h": 122.98333333333333
+  },
+  {
+   "lambda": 30,
+   "objective": 44037.46666666667,
+   "bound": 40828.25,
+   "gap": 0.07287468852280332,
+   "wall_s": 87.53180623054504,
+   "weighted_tardiness_h": 45.1,
+   "tardiness_cost": 1353.0,
+   "setup_h": 34.333333333333336,
+   "setup_cost": 2060.0,
+   "run_cost": 40624.46666666666,
+   "operating_cost": 42684.46666666666,
+   "total": 44037.46666666666,
+   "late_jobs": 6,
+   "max_tardiness_h": 19.416666666666668,
+   "makespan_h": 122.98333333333333
+  },
+  {
+   "lambda": 60,
+   "objective": 43437.083333333336,
+   "bound": 40533.13333333333,
+   "gap": 0.06685416646682474,
+   "wall_s": 91.81935024261475,
+   "weighted_tardiness_h": 8.933333333333334,
+   "tardiness_cost": 536.0,
+   "setup_h": 34.916666666666664,
+   "setup_cost": 2095.0,
+   "run_cost": 40806.08333333333,
+   "operating_cost": 42901.08333333333,
+   "total": 43437.08333333333,
+   "late_jobs": 4,
+   "max_tardiness_h": 6.7,
+   "makespan_h": 116.6
+  },
+  {
+   "lambda": 120,
+   "objective": 42920.583333333336,
+   "bound": 39962.76666666667,
+   "gap": 0.06891371078755915,
+   "wall_s": 86.66890931129456,
+   "weighted_tardiness_h": 1.15,
+   "tardiness_cost": 138.0,
+   "setup_h": 32.5,
+   "setup_cost": 1950.0,
+   "run_cost": 40590.58333333333,
+   "operating_cost": 42540.58333333333,
+   "total": 42678.58333333333,
+   "late_jobs": 2,
+   "max_tardiness_h": 0.6666666666666666,
+   "makespan_h": 117.18333333333334
+  },
+  {
+   "lambda": 300,
+   "objective": 42835.583333333336,
+   "bound": 40891.01666666667,
+   "gap": 0.04539605896188326,
+   "wall_s": 86.10168123245239,
+   "weighted_tardiness_h": 0.6666666666666666,
+   "tardiness_cost": 200.0,
+   "setup_h": 34.083333333333336,
+   "setup_cost": 2045.0,
+   "run_cost": 40590.58333333333,
+   "operating_cost": 42635.58333333333,
+   "total": 42835.58333333333,
+   "late_jobs": 1,
+   "max_tardiness_h": 0.6666666666666666,
+   "makespan_h": 117.18333333333334
+  },
+  {
+   "lambda": 1200,
+   "objective": 43424.916666666664,
+   "bound": 40889.6,
+   "gap": 0.058383915532365216,
+   "wall_s": 90.41493320465088,
+   "weighted_tardiness_h": 0.6666666666666666,
+   "tardiness_cost": 800.0,
+   "setup_h": 34.083333333333336,
+   "setup_cost": 2045.0,
+   "run_cost": 40579.916666666664,
+   "operating_cost": 42624.916666666664,
+   "total": 43424.916666666664,
+   "late_jobs": 1,
+   "max_tardiness_h": 0.6666666666666666,
+   "makespan_h": 117.18333333333334
+  }
+ ],
+ "points": {
+  "EDD list": {
+   "operating_cost": 48483.69999999999,
+   "weighted_tardiness_h": 196.06666666666666,
+   "setup_h": 71.25,
+   "run_cost": 44208.69999999999,
+   "late_jobs": 22
+  },
+  "ATCS (tuned)": {
+   "operating_cost": 48469.816666666666,
+   "weighted_tardiness_h": 123.36666666666666,
+   "setup_h": 47.0,
+   "run_cost": 45649.816666666666,
+   "late_jobs": 15
+  },
+  "Cost-aware greedy": {
+   "operating_cost": 44703.01666666667,
+   "weighted_tardiness_h": 132.03333333333333,
+   "setup_h": 41.166666666666664,
+   "run_cost": 42233.01666666667,
+   "late_jobs": 18
+  },
+  "greedy@2": {
+   "operating_cost": 41250.549999999996,
+   "weighted_tardiness_h": 567.45,
+   "setup_h": 26.166666666666668,
+   "run_cost": 39680.549999999996,
+   "late_jobs": 22
+  },
+  "cp@2": {
+   "operating_cost": 40725.049999999996,
+   "weighted_tardiness_h": 442.43333333333334,
+   "setup_h": 25.166666666666668,
+   "run_cost": 39215.049999999996,
+   "late_jobs": 16
+  },
+  "greedy@5": {
+   "operating_cost": 41770.116666666654,
+   "weighted_tardiness_h": 483.73333333333335,
+   "setup_h": 29.083333333333332,
+   "run_cost": 40025.116666666654,
+   "late_jobs": 23
+  },
+  "cp@5": {
+   "operating_cost": 41194.49999999999,
+   "weighted_tardiness_h": 288.75,
+   "setup_h": 26.666666666666668,
+   "run_cost": 39594.49999999999,
+   "late_jobs": 13
+  },
+  "greedy@10": {
+   "operating_cost": 42891.98333333333,
+   "weighted_tardiness_h": 305.71666666666664,
+   "setup_h": 37.166666666666664,
+   "run_cost": 40661.98333333333,
+   "late_jobs": 33
+  },
+  "cp@10": {
+   "operating_cost": 42270.33333333333,
+   "weighted_tardiness_h": 117.0,
+   "setup_h": 28.25,
+   "run_cost": 40575.33333333333,
+   "late_jobs": 10
+  },
+  "greedy@20": {
+   "operating_cost": 43659.049999999996,
+   "weighted_tardiness_h": 149.63333333333333,
+   "setup_h": 38.333333333333336,
+   "run_cost": 41359.049999999996,
+   "late_jobs": 22
+  },
+  "cp@20": {
+   "operating_cost": 42107.53333333333,
+   "weighted_tardiness_h": 112.81666666666666,
+   "setup_h": 28.0,
+   "run_cost": 40427.53333333333,
+   "late_jobs": 7
+  },
+  "greedy@30": {
+   "operating_cost": 43659.049999999996,
+   "weighted_tardiness_h": 149.63333333333333,
+   "setup_h": 38.333333333333336,
+   "run_cost": 41359.049999999996,
+   "late_jobs": 22
+  },
+  "cp@30": {
+   "operating_cost": 42684.46666666666,
+   "weighted_tardiness_h": 45.1,
+   "setup_h": 34.333333333333336,
+   "run_cost": 40624.46666666666,
+   "late_jobs": 6
+  },
+  "greedy@60": {
+   "operating_cost": 44703.01666666667,
+   "weighted_tardiness_h": 132.03333333333333,
+   "setup_h": 41.166666666666664,
+   "run_cost": 42233.01666666667,
+   "late_jobs": 18
+  },
+  "cp@60": {
+   "operating_cost": 42901.08333333333,
+   "weighted_tardiness_h": 8.933333333333334,
+   "setup_h": 34.916666666666664,
+   "run_cost": 40806.08333333333,
+   "late_jobs": 4
+  },
+  "greedy@120": {
+   "operating_cost": 45016.98333333332,
+   "weighted_tardiness_h": 91.56666666666666,
+   "setup_h": 45.166666666666664,
+   "run_cost": 42306.98333333332,
+   "late_jobs": 15
+  },
+  "cp@120": {
+   "operating_cost": 42540.58333333333,
+   "weighted_tardiness_h": 1.15,
+   "setup_h": 32.5,
+   "run_cost": 40590.58333333333,
+   "late_jobs": 2
+  },
+  "greedy@300": {
+   "operating_cost": 45958.33333333333,
+   "weighted_tardiness_h": 106.58333333333333,
+   "setup_h": 50.833333333333336,
+   "run_cost": 42908.33333333333,
+   "late_jobs": 15
+  },
+  "cp@300": {
+   "operating_cost": 42635.58333333333,
+   "weighted_tardiness_h": 0.6666666666666666,
+   "setup_h": 34.083333333333336,
+   "run_cost": 40590.58333333333,
+   "late_jobs": 1
+  },
+  "greedy@1200": {
+   "operating_cost": 45913.5,
+   "weighted_tardiness_h": 131.06666666666666,
+   "setup_h": 55.416666666666664,
+   "run_cost": 42588.5,
+   "late_jobs": 18
+  },
+  "cp@1200": {
+   "operating_cost": 42624.916666666664,
+   "weighted_tardiness_h": 0.6666666666666666,
+   "setup_h": 34.083333333333336,
+   "run_cost": 40579.916666666664,
+   "late_jobs": 1
+  }
+ },
+ "nondominated": [
+  "cp@2",
+  "cp@5",
+  "cp@20",
+  "cp@120",
+  "cp@1200"
+ ]
+}
