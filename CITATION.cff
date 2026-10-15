@@ -5,6 +5,9 @@ type: software
 authors:
   - given-names: Diogo
     family-names: Ribeiro
+    orcid: "https://orcid.org/0009-0001-2022-7072"
+    email: dfr@esmad.ipp.pt
+    affiliation: "Faculty of Media Arts and Design, Technical University of Porto"
 version: 1.0.0
 license: Apache-2.0
 repository-code: https://github.com/DiogoRibeiro7/machine-allocation
@@ -20,6 +23,8 @@ preferred-citation:
   authors:
     - given-names: Diogo
       family-names: Ribeiro
+      orcid: "https://orcid.org/0009-0001-2022-7072"
+      affiliation: "Faculty of Media Arts and Design, Technical University of Porto"
   publisher:
     name: Medium
   url: https://medium.com/@diogo-ribeiro-1975/machine-allocation-on-a-production-line-requirements-a-constraint-model-and-the-data-science-182f2ac7d579

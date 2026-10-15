@@ -1,0 +1,45 @@
+{
+  "title": "machine-allocation: companion code for 'Machine Allocation on a Production Line'",
+  "version": "1.0.0",
+  "description": "Companion code for the article 'Machine Allocation on a Production Line': a CP-SAT model for scheduling unrelated parallel machines with changeovers, release dates and maintenance, compared with dispatching rules in five simulated experiments. Includes the simulated plant, three constructive rules, the experiment scripts and the published results and figures.",
+  "creators": [
+    {
+      "name": "Ribeiro, Diogo",
+      "affiliation": "Faculty of Media Arts and Design, Technical University of Porto",
+      "orcid": "0009-0001-2022-7072"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Ribeiro, Diogo",
+      "affiliation": "Faculty of Media Arts and Design, Technical University of Porto",
+      "orcid": "0009-0001-2022-7072",
+      "type": "ContactPerson"
+    }
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://medium.com/@diogo-ribeiro-1975/machine-allocation-on-a-production-line-requirements-a-constraint-model-and-the-data-science-182f2ac7d579",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-article",
+      "scheme": "url"
+    }
+  ],
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "apache-2.0",
+  "language": "eng",
+  "keywords": [
+    "operations research",
+    "scheduling",
+    "production scheduling",
+    "unrelated parallel machines",
+    "constraint programming",
+    "CP-SAT",
+    "OR-Tools",
+    "dispatching rules",
+    "sequence-dependent setups",
+    "simulation",
+    "reproducible research"
+  ]
+}
